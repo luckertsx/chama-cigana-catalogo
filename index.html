@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Catálogo | Chama Cigana</title>
+
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --creme: #F7E7D1;
+      --vinho: #6A0D14;
+      --dourado: #D4AF37;
+      --dourado-claro: #F2D199;
+      --texto-secundario: #A66D4F;
+      --preto: #0B0B0B;
+    }
+
+    body {
+      background: var(--creme);
+      color: var(--vinho);
+
+      font-family: Arial, Helvetica, sans-serif;
+
+      min-height: 100vh;
+    }
+
+    /* =========================
+       CABEÇALHO
+    ========================== */
+
+    header {
+      width: 100%;
+      max-width: 1200px;
+
+      margin: 0 auto;
+
+      padding: 45px 40px 25px;
+
+      display: flex;
+      align-items: center;
+
+      gap: 24px;
+    }
+
+    .logo {
+      width: 75px;
+      height: 75px;
+
+      border-radius: 50%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-family: Georgia, serif;
+      font-size: 12px;
+
+      color: var(--dourado);
+
+      border: 1px solid rgba(212, 175, 55, 0.5);
+
+      background: var(--vinho);
+    }
+
+    h1 {
+      font-family: Georgia, "Times New Roman", serif;
+
+      font-weight: normal;
+
+      font-size: 42px;
+
+      letter-spacing: 0.02em;
+
+      color: var(--vinho);
+    }
+
+    /* =========================
+       CONTEÚDO
+    ========================== */
+
+    main {
+      width: 100%;
+      max-width: 1200px;
+
+      margin: 0 auto;
+
+      padding: 35px 40px 70px;
+    }
+
+    .catalog-title {
+      margin-bottom: 10px;
+
+      font-family: Georgia, serif;
+
+      font-weight: normal;
+
+      font-size: 17px;
+
+      letter-spacing: 0.08em;
+    }
+
+    .catalog-description {
+      margin-bottom: 35px;
+
+      font-size: 12px;
+
+      color: var(--texto-secundario);
+    }
+
+    /* =========================
+       FILTROS
+    ========================== */
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+
+      gap: 10px;
+
+      margin-bottom: 38px;
+    }
+
+    .filter-button {
+      border: 1px solid rgba(106, 13, 20, 0.25);
+
+      background: transparent;
+
+      color: var(--vinho);
+
+      padding: 8px 13px;
+
+      border-radius: 30px;
+
+      font-size: 10px;
+
+      letter-spacing: 0.06em;
+
+      cursor: pointer;
+
+      transition: 0.25s;
+    }
+
+    .filter-button:hover,
+    .filter-button.active {
+      background: var(--vinho);
+      color: var(--creme);
+
+      border-color: var(--vinho);
+    }
+
+    /* =========================
+       GRID
+    ========================== */
+
+    .catalog-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+      gap: 55px 35px;
+    }
+
+    /* =========================
+       PRODUTO
+    ========================== */
+
+    .product {
+      min-width: 0;
+    }
+
+    .product-image {
+      position: relative;
+
+      width: 100%;
+      aspect-ratio: 4 / 5;
+
+      overflow: hidden;
+
+      border-radius: 7px;
+
+      background: #e7ded2;
+    }
+
+    .product-image img {
+      width: 100%;
+      height: 100%;
+
+      display: block;
+
+      object-fit: cover;
+
+      transition:
+        opacity 0.25s ease,
+        transform 0.5s ease;
+    }
+
+    .product-image:hover img {
+      transform: scale(1.025);
+    }
+
+    /* =========================
+       SETAS
+    ========================== */
+
+    .arrow {
+      position: absolute;
+
+      top: 50%;
+
+      transform: translateY(-50%);
+
+      width: 31px;
+      height: 31px;
+
+      border-radius: 50%;
+
+      border: 1px solid var(--dourado);
+
+      background: rgba(247, 231, 209, 0.88);
+
+      color: var(--vinho);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      cursor: pointer;
+
+      font-size: 18px;
+
+      z-index: 2;
+
+      transition: 0.2s;
+    }
+
+    .arrow:hover {
+      background: var(--vinho);
+
+      color: var(--creme);
+
+      border-color: var(--vinho);
+    }
+
+    .arrow.left {
+      left: 10px;
+    }
+
+    .arrow.right {
+      right: 10px;
+    }
+
+    /* =========================
+       CONTADOR
+    ========================== */
+
+    .photo-counter {
+      position: absolute;
+
+      bottom: 10px;
+      left: 50%;
+
+      transform: translateX(-50%);
+
+      padding: 5px 9px;
+
+      border-radius: 20px;
+
+      background: rgba(11, 11, 11, 0.62);
+
+      color: var(--creme);
+
+      font-size: 9px;
+
+      letter-spacing: 0.12em;
+    }
+
+    /* =========================
+       INFORMAÇÕES
+    ========================== */
+
+    .product-info {
+      padding-top: 14px;
+    }
+
+    .product-name {
+      font-family: Georgia, serif;
+
+      font-weight: normal;
+
+      font-size: 14px;
+
+      letter-spacing: 0.04em;
+
+      margin-bottom: 6px;
+    }
+
+    .product-aroma {
+      font-size: 10px;
+
+      color: var(--texto-secundario);
+
+      margin-bottom: 7px;
+    }
+
+    .product-price {
+      font-family: Georgia, serif;
+
+      font-size: 12px;
+
+      margin-bottom: 14px;
+    }
+
+    /* =========================
+       PEDIR
+    ========================== */
+
+    .order-button {
+      display: inline-block;
+
+      color: var(--vinho);
+
+      font-family: Georgia, serif;
+
+      font-size: 11px;
+
+      letter-spacing: 0.08em;
+
+      text-decoration: none;
+
+      padding-bottom: 3px;
+
+      border-bottom:
+        1px solid var(--dourado);
+
+      transition: 0.2s;
+    }
+
+    .order-button:hover {
+      color: var(--dourado);
+    }
+
+    /* =========================
+       RODAPÉ
+    ========================== */
+
+    footer {
+      text-align: center;
+
+      padding: 25px 20px 45px;
+
+      font-family: Georgia, serif;
+
+      font-size: 11px;
+
+      letter-spacing: 0.08em;
+
+      color: var(--vinho);
+    }
+
+    /* =========================
+       TABLET
+    ========================== */
+
+    @media (max-width: 850px) {
+
+      .catalog-grid {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+      }
+
+    }
+
+    /* =========================
+       CELULAR
+    ========================== */
+
+    @media (max-width: 500px) {
+
+      header {
+        padding: 26px 18px 15px;
+
+        gap: 13px;
+      }
+
+      .logo {
+        width: 48px;
+        height: 48px;
+
+        font-size: 8px;
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+
+      main {
+        padding:
+          28px 16px
+          55px;
+      }
+
+      .catalog-title {
+        font-size: 14px;
+      }
+
+      .catalog-description {
+        font-size: 10px;
+
+        line-height: 1.5;
+
+        margin-bottom: 25px;
+      }
+
+      .filters {
+        gap: 7px;
+
+        margin-bottom: 28px;
+      }
+
+      .filter-button {
+        font-size: 8px;
+
+        padding: 7px 10px;
+      }
+
+      .catalog-grid {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+
+        gap: 38px 13px;
+      }
+
+      .product-image {
+        border-radius: 5px;
+      }
+
+      .arrow {
+        width: 25px;
+        height: 25px;
+
+        font-size: 15px;
+      }
+
+      .arrow.left {
+        left: 6px;
+      }
+
+      .arrow.right {
+        right: 6px;
+      }
+
+      .photo-counter {
+        bottom: 7px;
+
+        font-size: 7px;
+      }
+
+      .product-info {
+        padding-top: 10px;
+      }
+
+      .product-name {
+        font-size: 11px;
+      }
+
+      .product-aroma {
+        font-size: 8px;
+
+        line-height: 1.4;
+      }
+
+      .product-price {
+        font-size: 10px;
+
+        margin-bottom: 11px;
+      }
+
+      .order-button {
+        font-size: 9px;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+  <!-- =========================
+       CABEÇALHO
+  ========================== -->
+
+  <header>
+
+    <div class="logo">
+      CIGANA
+    </div>
+
+    <h1>CATÁLOGO</h1>
+
+  </header>
+
+
+  <main>
+
+    <h2 class="catalog-title">
+      NOSSAS VELAS
+    </h2>
+
+    <p class="catalog-description">
+      Encontre a chama que combina com você.
+    </p>
+
+
+    <!-- FILTROS -->
+
+    <div class="filters">
+
+      <button
+        class="filter-button active"
+        data-filter="todos"
+      >
+        TODAS
+      </button>
+
+      <button
+        class="filter-button"
+        data-filter="doces"
+      >
+        DOCES
+      </button>
+
+      <button
+        class="filter-button"
+        data-filter="florais"
+      >
+        FLORAIS
+      </button>
+
+      <button
+        class="filter-button"
+        data-filter="frutados"
+      >
+        FRUTADOS
+      </button>
+
+      <button
+        class="filter-button"
+        data-filter="citricos"
+      >
+        CÍTRICOS
+      </button>
+
+      <button
+        class="filter-button"
+        data-filter="amadeirados"
+      >
+        AMADEIRADOS
+      </button>
+
+      <button
+        class="filter-button"
+        data-filter="especiados"
+      >
+        ESPECIADOS
+      </button>
+
+    </div>
+
+
+    <!-- PRODUTOS -->
+
+    <section
+      class="catalog-grid"
+      id="catalog"
+    ></section>
+
+  </main>
+
+
+  <footer>
+    CHAMA CIGANA • VELAS ARTESANAIS
+  </footer>
+
+
+  <script>
+
+    /*
+    ========================================
+    NÚMERO DO WHATSAPP
+    ========================================
+    */
+
+    const whatsapp =
+      "554797703251";
+
+
+    /*
+    ========================================
+    PRODUTOS
+
+    Depois você poderá trocar:
+    - nome
+    - aroma
+    - preço
+    - categoria
+    - fotos
+    ========================================
+    */
+
+    const products = [
+
+      {
+        name: "LUA VERMELHA",
+
+        aroma: "Âmbar + Baunilha",
+
+        price: "R$ 39,90",
+
+        category: "doces",
+
+        images: [
+          "https://picsum.photos/seed/lua1/700/900",
+          "https://picsum.photos/seed/lua2/700/900",
+          "https://picsum.photos/seed/lua3/700/900"
+        ]
+      },
+
+
+      {
+        name: "CIGANA",
+
+        aroma: "Canela + Madeiras",
+
+        price: "R$ 44,90",
+
+        category: "especiados",
+
+        images: [
+          "https://picsum.photos/seed/cigana1/700/900",
+          "https://picsum.photos/seed/cigana2/700/900",
+          "https://picsum.photos/seed/cigana3/700/900"
+        ]
+      },
+
+
+      {
+        name: "ENCANTO",
+
+        aroma: "Cereja",
+
+        price: "R$ 42,90",
+
+        category: "frutados",
+
+        images: [
+          "https://picsum.photos/seed/encanto1/700/900",
+          "https://picsum.photos/seed/encanto2/700/900",
+          "https://picsum.photos/seed/encanto3/700/900"
+        ]
+      },
+
+
+      {
+        name: "AURORA",
+
+        aroma: "Laranja + Baunilha",
+
+        price: "R$ 41,90",
+
+        category: "citricos",
+
+        images: [
+          "https://picsum.photos/seed/aurora1/700/900",
+          "https://picsum.photos/seed/aurora2/700/900",
+          "https://picsum.photos/seed/aurora3/700/900"
+        ]
+      },
+
+
+      {
+        name: "SERENA",
+
+        aroma: "Lavanda + Flores Brancas",
+
+        price: "R$ 45,90",
+
+        category: "florais",
+
+        images: [
+          "https://picsum.photos/seed/serena1/700/900",
+          "https://picsum.photos/seed/serena2/700/900",
+          "https://picsum.photos/seed/serena3/700/900"
+        ]
+      },
+
+
+      {
+        name: "ÂMBAR",
+
+        aroma: "Âmbar + Cedro",
+
+        price: "R$ 49,90",
+
+        category: "amadeirados",
+
+        images: [
+          "https://picsum.photos/seed/ambar1/700/900",
+          "https://picsum.photos/seed/ambar2/700/900",
+          "https://picsum.photos/seed/ambar3/700/900"
+        ]
+      }
+
+    ];
+
+
+    /*
+    ========================================
+    CRIA O LINK DO WHATSAPP
+    ========================================
+    */
+
+    function createWhatsappLink(product) {
+
+      const message =
+`Olá! Vim pelo catálogo da loja e gostaria de comprar esta vela:
+
+*${product.name}*
+Aroma: ${product.aroma}
+Valor: ${product.price}
+
+Gostaria de receber as informações para pagamento`;
+
+      return (
+        "https://wa.me/" +
+        whatsapp +
+        "?text=" +
+        encodeURIComponent(message)
+      );
+
+    }
+
+
+    /*
+    ========================================
+    CRIA OS PRODUTOS
+    ========================================
+    */
+
+    function renderProducts(filter = "todos") {
+
+      const catalog =
+        document.getElementById("catalog");
+
+      catalog.innerHTML = "";
+
+
+      const filteredProducts =
+        filter === "todos"
+          ? products
+          : products.filter(
+              product =>
+                product.category === filter
+            );
+
+
+      filteredProducts.forEach(
+        (product, productIndex) => {
+
+          let currentImage = 0;
+
+
+          const card =
+            document.createElement("article");
+
+          card.className = "product";
+
+
+          card.innerHTML = `
+
+            <div class="product-image">
+
+              <img
+                src="${product.images[0]}"
+                alt="${product.name}"
+              >
+
+              <button
+                class="arrow left"
+                aria-label="Foto anterior"
+              >
+                ‹
+              </button>
+
+              <button
+                class="arrow right"
+                aria-label="Próxima foto"
+              >
+                ›
+              </button>
+
+              <span class="photo-counter">
+                01 / 03
+              </span>
+
+            </div>
+
+
+            <div class="product-info">
+
+              <h3 class="product-name">
+                ${product.name}
+              </h3>
+
+              <p class="product-aroma">
+                ${product.aroma}
+              </p>
+
+              <p class="product-price">
+                ${product.price}
+              </p>
+
+              <a
+                class="order-button"
+                href="${createWhatsappLink(product)}"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                PEDIR →
+              </a>
+
+            </div>
+
+          `;
+
+
+          const image =
+            card.querySelector("img");
+
+          const counter =
+            card.querySelector(
+              ".photo-counter"
+            );
+
+
+          function changeImage(direction) {
+
+            currentImage += direction;
+
+
+            if (
+              currentImage >=
+              product.images.length
+            ) {
+
+              currentImage = 0;
+
+            }
+
+
+            if (currentImage < 0) {
+
+              currentImage =
+                product.images.length - 1;
+
+            }
+
+
+            image.style.opacity = "0";
+
+
+            setTimeout(() => {
+
+              image.src =
+                product.images[currentImage];
+
+              counter.textContent =
+                String(
+                  currentImage + 1
+                ).padStart(2, "0") +
+                " / " +
+                String(
+                  product.images.length
+                ).padStart(2, "0");
+
+              image.style.opacity = "1";
+
+            }, 150);
+
+          }
+
+
+          card
+            .querySelector(".left")
+            .addEventListener(
+              "click",
+              () => changeImage(-1)
+            );
+
+
+          card
+            .querySelector(".right")
+            .addEventListener(
+              "click",
+              () => changeImage(1)
+            );
+
+
+          catalog.appendChild(card);
+
+        }
+      );
+
+    }
+
+
+    /*
+    ========================================
+    FILTROS
+    ========================================
+    */
+
+    document
+      .querySelectorAll(
+        ".filter-button"
+      )
+      .forEach(button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            document
+              .querySelectorAll(
+                ".filter-button"
+              )
+              .forEach(item =>
+                item.classList.remove(
+                  "active"
+                )
+              );
+
+
+            button.classList.add(
+              "active"
+            );
+
+
+            renderProducts(
+              button.dataset.filter
+            );
+
+          }
+        );
+
+      });
+
+
+    /*
+    PRIMEIRA EXIBIÇÃO
+    */
+
+    renderProducts();
+
+  </script>
+
+</body>
+</html>
